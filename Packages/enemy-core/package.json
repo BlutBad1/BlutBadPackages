@@ -17,6 +17,6 @@
     "url": "https://github.com/TEGTO"
   },
   "dependencies": {
-    "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=main-core"
+    "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core"
   }
 }
