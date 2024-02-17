@@ -53,7 +53,7 @@ namespace EnemyNS.Navigation
 		{
 			while (!tokenSource.IsCancellationRequested)
 			{
-				if (agent.enabled && !agent.isStopped && agent.isOnOffMeshLink)
+				if (agent.enabled && agent.isOnOffMeshLink)
 					AskToCreatePath();
 				await Task.Delay(UpdateRate);
 			}
