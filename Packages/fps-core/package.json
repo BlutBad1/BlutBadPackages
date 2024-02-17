@@ -1,0 +1,23 @@
+{
+  "name": "com.blutbad.fps-core",
+  "version": "1.0.0",
+  "displayName": "FPS Core",
+  "description": "FPS Core",
+  "unity": "2021.3",
+  "keywords": [
+    "library",
+    "player",
+    "base",
+    "carcas",
+    "fps",
+    "FPS",
+    "core"
+  ],
+  "author": {
+    "name": "TEGTO",
+    "url": "https://github.com/TEGTO"
+  },
+  "dependencies": {
+    "com.unity.inputsystem" : "1.5.1"
+  }
+}
