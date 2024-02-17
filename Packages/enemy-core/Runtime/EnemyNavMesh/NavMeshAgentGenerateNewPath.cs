@@ -3,10 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityMethodsNS;
 
 namespace EnemyNS.Navigation
 {
-	public class NavMeshAgentGenerateNewPath : MonoBehaviour, ISerializationCallbackReceiver
+	public class NavMeshAgentGenerateNewPath : OnEnableMethodAfterStart, ISerializationCallbackReceiver
 	{
 		public static List<string> NavMeshAgentTypes = new List<string>();
 
@@ -22,9 +23,11 @@ namespace EnemyNS.Navigation
 
 		private int UpdateRate { get => (int)(updateRate * 1000); }
 
-		private void OnEnable()
+		protected override void OnEnableAfterStart()
 		{
+			dynamicNavMeshBaking = DynamicNavMeshBaking.Instance;
 			tokenSource = new CancellationTokenSource();
+			CheckAgentNavMesh();
 		}
 		private void OnDisable()
 		{
@@ -33,11 +36,6 @@ namespace EnemyNS.Navigation
 				tokenSource.Cancel();
 				tokenSource.Dispose();
 			}
-		}
-		private void Start()
-		{
-			dynamicNavMeshBaking = DynamicNavMeshBaking.Instance;
-			CheckAgentNavMesh();
 		}
 		public void OnAfterDeserialize() { }
 		public void OnBeforeSerialize()
@@ -53,7 +51,7 @@ namespace EnemyNS.Navigation
 		{
 			while (!tokenSource.IsCancellationRequested)
 			{
-				if (agent.enabled && agent.isOnOffMeshLink)
+				if (agent.enabled && !agent.isOnNavMesh)
 					AskToCreatePath();
 				await Task.Delay(UpdateRate);
 			}

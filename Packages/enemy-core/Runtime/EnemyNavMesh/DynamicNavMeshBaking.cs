@@ -37,13 +37,17 @@ namespace EnemyNS.Navigation
 			else
 				Destroy(this);
 		}
-		public bool CheckIfInNavMeshRange(GameObject gameObject) =>
-			Vector3.Distance(gameObject.transform.position, player.transform.position) < navMeshSize.magnitude;
+		public bool CheckIfInNavMeshRange(GameObject gameObject)
+		{
+			Vector3 surfacePosition = player.transform.position;
+			Bounds navMeshBounds = new Bounds(surfacePosition, navMeshSize);
+			return navMeshBounds.Contains(gameObject.transform.position);
+		}
 		public void CreateNavMeshByAgentId(int agentId, bool async = true)
 		{
 			Vector3 surfacePosition = player.transform.position;
-			NavMeshSurface navMeshSurface = surfaces.FirstOrDefault(x => x.agentTypeID == agentId) ?? null;
 			Bounds navMeshBounds = new Bounds(surfacePosition, navMeshSize);
+			NavMeshSurface navMeshSurface = surfaces.FirstOrDefault(x => x.agentTypeID == agentId) ?? null;
 			if (navMeshSurface != null)
 			{
 				BuildNavMeshSurface(async, navMeshBounds, navMeshSurface);
