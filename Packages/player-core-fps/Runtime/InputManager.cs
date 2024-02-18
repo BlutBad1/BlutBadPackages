@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace PlayerScriptsNS
 {
-    [RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(PlayerLook)), DefaultExecutionOrder(-100)]
+    [RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(FPSPlayerLook)), DefaultExecutionOrder(-100)]
     public class InputManager : MonoBehaviour
     {
         [SerializeField, FormerlySerializedAs("OnFoot")]
@@ -14,7 +14,7 @@ namespace PlayerScriptsNS
 
         private PlayerInput playerInput;
         private PlayerMotor motor;
-        private PlayerLook look;
+        private FPSPlayerLook look;
         private bool IsMovingLocked = false;
 
         public PlayerInput.OnFootActions OnFoot { get => onFoot;  }
@@ -61,7 +61,7 @@ namespace PlayerScriptsNS
 			onFoot = playerInput.OnFoot;
             uIActions = playerInput.UI;
             motor = GetComponent<PlayerMotor>();
-            look = GetComponent<PlayerLook>();
+            look = GetComponent<FPSPlayerLook>();
             onFoot.Jump.performed += PefrormJump;
             onFoot.Crouch.performed += PefrormCrounch;
             onFoot.Sprint.started += StartSprint;

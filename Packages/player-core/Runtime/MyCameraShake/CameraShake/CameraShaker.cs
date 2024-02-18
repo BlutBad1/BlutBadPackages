@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using PlayerScriptsNS;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.LowLevel;
 
 namespace EZCameraShake
 {
@@ -29,6 +31,9 @@ namespace EZCameraShake
 		/// Offset that will be applied to the camera's default (0,0,0) rest rotation
 		/// </summary>
 		public Vector3 RestRotationOffset = new Vector3(0, 0, 0);
+
+		[SerializeField]
+		private PlayerLook playerLook;
 
 		protected Vector3 posAddShake, rotAddShake;
 
@@ -68,7 +73,10 @@ namespace EZCameraShake
 		}
 		protected virtual void SetLocalRotation()
 		{
-			transform.localEulerAngles = rotAddShake + RestRotationOffset;
+			if (playerLook != null)
+				transform.localEulerAngles = rotAddShake + RestRotationOffset + playerLook.PlayerCameraCurRotation;
+			else
+				transform.localEulerAngles = rotAddShake + RestRotationOffset;
 		}
 		/// <summary>
 		/// Gets the CameraShaker with the given name, if it exists.

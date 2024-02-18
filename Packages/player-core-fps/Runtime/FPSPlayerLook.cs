@@ -1,8 +1,9 @@
 using InputNS;
 using UnityEngine;
+
 namespace PlayerScriptsNS
 {
-	public class PlayerLook : MonoBehaviour
+	public class FPSPlayerLook : PlayerLook
 	{
 		[SerializeField]
 		private Camera cam;
@@ -10,9 +11,8 @@ namespace PlayerScriptsNS
 		private float xRotation = 0f;
 		private InputManager inputManager;
 		private bool isLookingInputLocked = false;
-		private Quaternion lastCameraRotation;
 
-		public Vector3 PlayerCameraCurRotation { get; private set; }
+		public override Vector3 PlayerCameraCurRotation { get; protected set; }
 
 		private void Start()
 		{
@@ -48,13 +48,10 @@ namespace PlayerScriptsNS
 				xRotation -= mouseY * MouseSensivity.YSensitivity;
 				xRotation = Mathf.Clamp(xRotation, -80f, 70f);
 				cam.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-				lastCameraRotation = cam.transform.localRotation;
 				float yRotation = mouseX * MouseSensivity.XSensitivity;
 				PlayerCameraCurRotation = new Vector3(xRotation, yRotation, 0);
 				transform.Rotate(Vector3.up * mouseX * MouseSensivity.XSensitivity);
 			}
-			else
-				cam.transform.localRotation = lastCameraRotation;
 		}
 	}
 }
