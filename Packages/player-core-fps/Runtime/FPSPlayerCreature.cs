@@ -18,10 +18,10 @@ namespace PlayerScriptsNS
 			UnblockMovement();
 		}
 		public override void BlockMovement() =>
-			playerMotor.GetCharacterController().enabled = false;
+			playerMotor.Character.enabled = false;
 		public override void UnblockMovement() =>
-			playerMotor.GetCharacterController().enabled = true;
+			playerMotor.Character.enabled = true;
 		public override void SetSpeedCoef(float speedCoef) =>
-			playerMotor.SetSpeedCoef(speedCoef);
+			playerMotor.SpeedCoef = speedCoef;
 	}
 }
