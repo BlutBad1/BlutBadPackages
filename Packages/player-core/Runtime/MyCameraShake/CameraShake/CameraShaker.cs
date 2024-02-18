@@ -33,7 +33,7 @@ namespace EZCameraShake
 		public Vector3 RestRotationOffset = new Vector3(0, 0, 0);
 
 		[SerializeField]
-		private PlayerLook playerLook;
+		private BasePlayerLook playerLook;
 
 		protected Vector3 posAddShake, rotAddShake;
 

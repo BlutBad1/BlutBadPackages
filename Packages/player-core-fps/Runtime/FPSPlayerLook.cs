@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PlayerScriptsNS
 {
-	public class FPSPlayerLook : PlayerLook
+	public class FPSPlayerLook : BasePlayerLook
 	{
 		[SerializeField]
 		private Camera cam;
