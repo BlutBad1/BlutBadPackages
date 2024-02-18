@@ -8,19 +8,30 @@
         "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core"
       }
     },
-    "com.blutbad.fps-core": {
-      "version": "file:fps-input-core",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.inputsystem": "1.5.1"
-      }
-    },
     "com.blutbad.main-core": {
       "version": "file:main-core",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
+    },
+    "com.blutbad.player-core": {
+      "version": "file:player-core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core",
+        "com.unity.inputsystem": "1.5.1"
+      }
+    },
+    "com.blutbad.player-core-fps": {
+      "version": "file:player-core-fps",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core",
+        "com.blutbad.player-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/player-core",
+        "com.unity.inputsystem": "1.5.1"
+      }
     },
     "com.unity.collab-proxy": {
       "version": "2.0.4",

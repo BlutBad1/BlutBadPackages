@@ -1,16 +1,15 @@
 {
-  "name": "com.blutbad.fps-core",
+  "name": "com.blutbad.player-core",
   "version": "1.0.0",
-  "displayName": "FPS Core",
-  "description": "FPS Core",
+  "displayName": "Player Core",
+  "description": "Player carcas for extending.",
   "unity": "2021.3",
   "keywords": [
     "library",
     "player",
     "base",
     "carcas",
-    "fps",
-    "FPS",
+    "attack",
     "core"
   ],
   "author": {
@@ -18,6 +17,7 @@
     "url": "https://github.com/TEGTO"
   },
   "dependencies": {
+    "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core",
     "com.unity.inputsystem" : "1.5.1"
   }
 }
