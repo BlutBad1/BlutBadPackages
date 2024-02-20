@@ -49,11 +49,8 @@ namespace EnemyNS.Base
         {
             if (!Agent.isOnOffMeshLink)
             {
-#if UNITY_EDITOR
-                if (!animator)
-                    Debug.LogWarning("Enemy movement animator is not set!");
-#endif
-				animator?.SetBool(EnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
+                if (animator)
+                    animator?.SetBool(EnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
             }
         }
         protected virtual void OnDisable()
