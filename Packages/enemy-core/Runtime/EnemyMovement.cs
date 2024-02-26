@@ -1,10 +1,3 @@
-using AYellowpaper;
-using EnemyConstantsNS;
-using EnemyNS.Navigation;
-using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Serialization;
-
 namespace EnemyNS.Base
 {
     [RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover))]
@@ -47,11 +40,7 @@ namespace EnemyNS.Base
         }
         private void Update()
         {
-            if (!Agent.isOnOffMeshLink)
-            {
-                if (animator)
-                    animator?.SetBool(EnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
-            }
+            WalkAnimation();
         }
         protected virtual void OnDisable()
         {
@@ -60,17 +49,25 @@ namespace EnemyNS.Base
         }
         public virtual void BackToDefaultPosition() =>
           Agent.Warp(defaultPositon);
+        protected virtual void WalkAnimation()
+        {
+            if (!Agent.isOnOffMeshLink)
+            {
+                if (animator)
+                    animator?.SetBool(EnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
+            }
+        }
         private void HandleLinkStart(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod == OffMeshLinkMoveMethod.NormalSpeed)
-				animator.SetBool(EnemyConstants.IS_WALKING, true);
+                animator.SetBool(EnemyConstants.IS_WALKING, true);
             else if (MoveMethod != OffMeshLinkMoveMethod.Teleport)
-				animator.SetTrigger(EnemyConstants.JUMP);
+                animator.SetTrigger(EnemyConstants.JUMP);
         }
         private void HandleLinkEnd(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod != OffMeshLinkMoveMethod.Teleport && MoveMethod != OffMeshLinkMoveMethod.NormalSpeed)
-				animator.SetTrigger(EnemyConstants.LANDED);
+                animator.SetTrigger(EnemyConstants.LANDED);
         }
     }
 }

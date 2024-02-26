@@ -8,7 +8,7 @@ namespace EnemyNS.Base
 {
     public class EnemyCreature : Creature, ISerializationCallbackReceiver
     {
-        [SerializeField, ListToMultiplePopup(typeof(Creature), "CreatureNames")]
+        [SerializeField, ListToMultiplePopup(typeof(Creature), "creatureNames")]
         protected int opponentsMask;
         [SerializeField]
         private NavMeshAgent agent;
