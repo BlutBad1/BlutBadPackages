@@ -9,6 +9,7 @@ namespace CreatureNS
         public void SetPositionAndRotation(Vector3 position, Quaternion rotation);
         public void BlockMovement();
         public void UnblockMovement();
-        public void SetSpeedCoef(float speedCoef);
+        public void SetCurrentSpeedCoef(float speedCoef);
+        public float GetCurrentSpeedCuef();
     }
 }

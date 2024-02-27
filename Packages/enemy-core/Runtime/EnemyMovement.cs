@@ -1,6 +1,12 @@
+using AYellowpaper;
+using EnemyConstantsNS;
+using EnemyNS.Navigation;
+using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace EnemyNS.Base
 {
-    [RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover))]
+    [RequireComponent(typeof(UnityEngine.AI.NavMeshAgent), typeof(AgentLinkMover))]
     public class EnemyMovement : MonoBehaviour
     {
         [SerializeField, RequireInterface(typeof(IStateHandler))]
@@ -8,17 +14,17 @@ namespace EnemyNS.Base
         [SerializeField, FormerlySerializedAs("Animator")]
         private Animator animator = null;
         [SerializeField, FormerlySerializedAs("Triangulation")]
-        protected NavMeshTriangulation triangulation = new NavMeshTriangulation();
+        protected UnityEngine.AI.NavMeshTriangulation triangulation = new UnityEngine.AI.NavMeshTriangulation();
         [SerializeField, FormerlySerializedAs("DefaultState")]
         private EnemyState defaultState;
 
         protected Vector3 defaultPositon;
-        private NavMeshAgent agent;
+        private UnityEngine.AI.NavMeshAgent agent;
         private AgentLinkMover linkMover;
 
-        public NavMeshAgent Agent
+        public UnityEngine.AI.NavMeshAgent Agent
         {
-            get { return agent == null ? agent = GetComponent<NavMeshAgent>() : agent; }
+            get { return agent == null ? agent = GetComponent<UnityEngine.AI.NavMeshAgent>() : agent; }
         }
         public EnemyState State { get => StateHandler.GetState(); set => StateHandler.SetState(value); }
         public Animator Animator { get => animator; }

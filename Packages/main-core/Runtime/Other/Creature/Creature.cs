@@ -3,7 +3,6 @@ using ScriptableObjectNS.Creature;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-using System.Collections.Generic;
 
 public abstract class Creature : MonoBehaviour, ICreature, ISerializationCallbackReceiver
 {
@@ -25,6 +24,8 @@ public abstract class Creature : MonoBehaviour, ICreature, ISerializationCallbac
     [SerializeField, FormerlySerializedAs("CreatureType"), ListToPopup(typeof(Creature), "creatureNames")]
     private string creatureType;
 
+    protected float currentSpeedCoef = 1f;
+
     public void OnAfterDeserialize() { }
     public void OnBeforeSerialize() =>
          CreatureNames = CreatureTypes.Instance.Names;
@@ -35,5 +36,11 @@ public abstract class Creature : MonoBehaviour, ICreature, ISerializationCallbac
     public abstract void BlockMovement();
     public abstract void UnblockMovement();
     public abstract void SetPositionAndRotation(Vector3 position, Quaternion rotation);
-    public abstract void SetSpeedCoef(float speedCoef);
+    public virtual void SetCurrentSpeedCoef(float speedCoef)
+    {
+        currentSpeedCoef = speedCoef;
+        SetCurrentSpeed();
+    }
+    public virtual float GetCurrentSpeedCuef() => currentSpeedCoef;
+    protected abstract void SetCurrentSpeed();
 }

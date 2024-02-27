@@ -15,6 +15,7 @@ namespace EnemyNS.Base
 
         private bool isOriginalSpeedSet = false;
         private float originalSpeed;
+        private float speedCoef;
         private List<string> opponentList;
 
         public string CreatureType { get => GetCreatureName(); }
@@ -30,7 +31,6 @@ namespace EnemyNS.Base
                 return originalSpeed;
             }
         }
-
         private void Start()
         {
             opponentList = GetOpponentsList();
@@ -61,8 +61,8 @@ namespace EnemyNS.Base
             transform.rotation = rotation;
             UnblockMovement();
         }
-        public override void SetSpeedCoef(float speedCoef) =>
-            agent.speed = OrigininalSpeed * speedCoef;
+        protected override void SetCurrentSpeed() =>
+            agent.speed = OrigininalSpeed * currentSpeedCoef;
         protected List<string> GetOpponentsList()
         {
             List<string> list = new List<string>();

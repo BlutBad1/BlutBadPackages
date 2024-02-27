@@ -11,7 +11,7 @@ namespace UnityMethodsNS
             if (!isFirstFrame)
             {
                 isFirstFrame = true;
-                OnFirstFrame()
+                OnFirstFrame();
             }
         }
         protected virtual void OnFirstFrame() { }
