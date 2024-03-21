@@ -17,7 +17,7 @@
     "url": "https://github.com/TEGTO"
   },
   "dependencies": {
-    "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core",
+    "com.blutbad.main-core": "1.0.0",
     "com.unity.inputsystem" : "1.5.1"
   }
 }

@@ -24,23 +24,27 @@ public abstract class Creature : MonoBehaviour, ICreature, ISerializationCallbac
     [SerializeField, FormerlySerializedAs("CreatureType"), ListToPopup(typeof(Creature), "creatureNames")]
     private string creatureType;
 
-    protected float currentSpeedCoef = 1f;
+    private float currentSpeedCoefficient = 1f;
+
+    public float CurrentSpeedCoefficient
+    {
+        get => currentSpeedCoefficient;
+        set
+        {
+            currentSpeedCoefficient = value;
+            SetCurrentSpeed();
+        }
+    }
 
     public void OnAfterDeserialize() { }
     public void OnBeforeSerialize() =>
          CreatureNames = CreatureTypes.Instance.Names;
     public GameObject GetCreatureGameObject() =>
          gameObject;
-    public string GetCreatureName() =>
+    public string GetCreatureType() =>
          creatureType;
     public abstract void BlockMovement();
     public abstract void UnblockMovement();
     public abstract void SetPositionAndRotation(Vector3 position, Quaternion rotation);
-    public virtual void SetCurrentSpeedCoef(float speedCoef)
-    {
-        currentSpeedCoef = speedCoef;
-        SetCurrentSpeed();
-    }
-    public virtual float GetCurrentSpeedCuef() => currentSpeedCoef;
     protected abstract void SetCurrentSpeed();
 }

@@ -1,13 +1,17 @@
+using AYellowpaper;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.Serialization;
 
 namespace PlayerScriptsNS
 {
     public class FPSPlayerCreature : PlayerCreature
     {
-        [SerializeField, FormerlySerializedAs("PlayerMotor")]
-        protected PlayerMotor playerMotor;
+        [SerializeField, RequireInterface(typeof(IFPSPlayerMotor))]
+        protected MonoBehaviour playerMotor;
+
+        public IFPSPlayerMotor PlayerMotor { get { return (IFPSPlayerMotor)playerMotor; } }
 
         public override void SetPositionAndRotation(Vector3 position, Quaternion rotation)
         {
@@ -18,10 +22,10 @@ namespace PlayerScriptsNS
             UnblockMovement();
         }
         public override void BlockMovement() =>
-            playerMotor.Character.enabled = false;
+            PlayerMotor.DisableMovement();
         public override void UnblockMovement() =>
-            playerMotor.Character.enabled = true;
+            PlayerMotor.EnableMovement();
         protected override void SetCurrentSpeed() =>
-            playerMotor.SpeedCoef = currentSpeedCoef;
+            PlayerMotor.SpeedCoef = CurrentSpeedCoefficient;
     }
 }

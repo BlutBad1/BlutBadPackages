@@ -1,71 +1,78 @@
+using AYellowpaper;
 using InputNS;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace PlayerScriptsNS
 {
-    [RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(FPSPlayerLook)), DefaultExecutionOrder(-100)]
     public class InputManager : MonoBehaviour
     {
-        [SerializeField, FormerlySerializedAs("OnFoot")]
+        [SerializeField]
         private PlayerInput.OnFootActions onFoot;
-        [SerializeField, FormerlySerializedAs("UIActions")]
+        [SerializeField]
         private PlayerInput.UIActions uIActions;
+        [SerializeField, RequireInterface(typeof(IFPSPlayerMotor))]
+        protected MonoBehaviour playerMotor;
+        [SerializeField, RequireInterface(typeof(IFPSPlayerLook))]
+        protected MonoBehaviour playerLook;
 
         private PlayerInput playerInput;
-        private PlayerMotor motor;
-        private FPSPlayerLook look;
-        private bool IsMovingLocked = false;
 
-        public PlayerInput.OnFootActions OnFoot { get => onFoot;  }
+        public IFPSPlayerMotor PlayerMotor { get { return (IFPSPlayerMotor)playerMotor; } }
+        public IFPSPlayerLook PlayerLook { get { return (IFPSPlayerLook)playerLook; } }
+        public PlayerInput.OnFootActions OnFoot { get => onFoot; }
         public PlayerInput.UIActions UIActions { get => uIActions; }
 
         private void Awake()
         {
             InitializeFields();
         }
-        private void FixedUpdate()
+        private void OnEnable()
         {
-            if (!IsMovingLocked)
-                motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
+            SubscribeEvents();
         }
-        private void LateUpdate() =>
-            look.ProcessLook(onFoot.Look.ReadValue<Vector2>());
-        private void OnEnable() =>
-            onFoot.Enable();
         private void OnDisable()
         {
-            onFoot.Jump.performed -= PefrormJump;
-            onFoot.Crouch.performed -= PefrormCrounch;
-            onFoot.Sprint.started -= StartSprint;
-            onFoot.Sprint.canceled -= CancelSprint;
-            onFoot.Disable();
+            UnsubscribeEvents();
         }
-        public void SetMovingLock(bool lockStatus, bool isResetVelocity = false)
+        private void FixedUpdate()
         {
-            IsMovingLocked = lockStatus;
-            if (isResetVelocity)
-                motor.ResetVelocity();
+            PlayerMotor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
         }
-        private void PefrormJump(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-            motor.Jump();
-        private void PefrormCrounch(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-            motor.Crounch();
+        private void LateUpdate()
+        {
+            PlayerLook.ProcessLook(onFoot.Look.ReadValue<Vector2>());
+        }
+        private void PerformJump(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
+            PlayerMotor.OnPerformJump();
+        private void PerformCrounch(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
+            PlayerMotor.OnPerformCrouch();
         private void StartSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-            motor.OnStartSprint();
+            PlayerMotor.OnStartSprint();
         private void CancelSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-          motor.OnCancelSprint();
+            PlayerMotor.OnCancelSprint();
         private void InitializeFields()
         {
             playerInput = GetPlayerInput.GetInput();
-			onFoot = playerInput.OnFoot;
+            onFoot = playerInput.OnFoot;
             uIActions = playerInput.UI;
-            motor = GetComponent<PlayerMotor>();
-            look = GetComponent<FPSPlayerLook>();
-            onFoot.Jump.performed += PefrormJump;
-            onFoot.Crouch.performed += PefrormCrounch;
+            if (playerMotor == null)
+                playerMotor = (MonoBehaviour)GetComponent<IFPSPlayerMotor>();
+            if (playerLook == null)
+                playerLook = (MonoBehaviour)GetComponent<IFPSPlayerLook>();
+        }
+        private void SubscribeEvents()
+        {
+            onFoot.Jump.performed += PerformJump;
+            onFoot.Crouch.performed += PerformCrounch;
             onFoot.Sprint.started += StartSprint;
             onFoot.Sprint.canceled += CancelSprint;
+        }
+        private void UnsubscribeEvents()
+        {
+            onFoot.Jump.performed -= PerformJump;
+            onFoot.Crouch.performed -= PerformCrounch;
+            onFoot.Sprint.started -= StartSprint;
+            onFoot.Sprint.canceled -= CancelSprint;
         }
     }
 }

@@ -4,12 +4,12 @@ namespace CreatureNS
 {
     public interface ICreature
     {
-        public string GetCreatureName();
+        public float CurrentSpeedCoefficient { get; set; }
+
+        public string GetCreatureType();
         public GameObject GetCreatureGameObject();
         public void SetPositionAndRotation(Vector3 position, Quaternion rotation);
         public void BlockMovement();
         public void UnblockMovement();
-        public void SetCurrentSpeedCoef(float speedCoef);
-        public float GetCurrentSpeedCuef();
     }
 }

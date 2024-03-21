@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "com.blutbad.enemy-core": {
-      "version": "file:enemy-core",
+    "com.blutbad.entity-core": {
+      "version": "file:entity-core",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core"
+        "com.blutbad.main-core": "1.0.0"
       }
     },
     "com.blutbad.main-core": {
@@ -19,7 +19,7 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core",
+        "com.blutbad.main-core": "1.0.0",
         "com.unity.inputsystem": "1.5.1"
       }
     },

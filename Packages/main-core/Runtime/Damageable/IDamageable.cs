@@ -38,6 +38,7 @@ namespace DamageableNS
         public event DamageWIthData OnTakeDamageWithDamageData;
         public event DamageWithoutData OnTakeDamageWithoutDamageData;
         public event DamageWithoutData OnDead;
+
         public void TakeDamage(TakeDamageData takeDamageData);
         public void TakeDamage(float damage);
         public GameObject GetGameObject();
