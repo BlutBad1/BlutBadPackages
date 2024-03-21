@@ -57,6 +57,7 @@ namespace PlayerScriptsNS
         public float SprintingSpeed { get => sprintingSpeed; set => sprintingSpeed = value; }
         public float DefaultSpeed { get => defaultSpeed; set => defaultSpeed = value; }
         public Vector3 Velocity { get; protected set; }
+        public Vector3 VelocityScaleByTime { get; protected set; }
         public virtual Vector3 YVelocity { get => yVelocity; protected set => yVelocity = value; }
 
         private void Awake()
@@ -154,7 +155,8 @@ namespace PlayerScriptsNS
                 yVelocity.y += gravity * Time.deltaTime;
             velocity += yVelocity;
             velocity = transform.TransformDirection(velocity);
-            Character.Move(velocity * Time.deltaTime);
+            VelocityScaleByTime = velocity * Time.deltaTime;
+            Character.Move(VelocityScaleByTime);
         }
         protected virtual Vector3 SlopeCalculation(Vector3 calculatedMovement)
         {
