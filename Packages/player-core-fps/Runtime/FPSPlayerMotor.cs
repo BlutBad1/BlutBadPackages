@@ -30,6 +30,7 @@ namespace PlayerScriptsNS
         private float speed;
         private bool isGrounded;
         private Vector3 yVelocity;
+        private Vector3 prevVelocity;
 
         public event Action OnSprintStartEvent;
         public event Action OnSprintCanceltEvent;
@@ -51,7 +52,6 @@ namespace PlayerScriptsNS
                     OnCancelSprint();
             }
         }
-        public CharacterController Character { get; protected set; }
         public float SpeedCoef { get; set; } = 1f;
         public float CrounchingSpeed { get => crounchingSpeed; set => crounchingSpeed = value; }
         public float SprintingSpeed { get => sprintingSpeed; set => sprintingSpeed = value; }
@@ -59,6 +59,7 @@ namespace PlayerScriptsNS
         public Vector3 Velocity { get; protected set; }
         public Vector3 VelocityScaleByTime { get; protected set; }
         public virtual Vector3 YVelocity { get => yVelocity; protected set => yVelocity = value; }
+        protected CharacterController Character { get; set; }
 
         private void Awake()
         {
@@ -143,9 +144,9 @@ namespace PlayerScriptsNS
             Vector3 horizontalMovement = new Vector3(input.x, 0, input.y);
             Vector3 targetVelocity = horizontalMovement * CurrentSpeed;
             // Apply inertia by combining the target velocity with last frame's velocity
-            Vector3 velocityWithInertia = Vector3.Lerp(targetVelocity, Velocity, inertiaWeight);
+            Vector3 velocityWithInertia = Vector3.Lerp(targetVelocity, prevVelocity, inertiaWeight);
             Vector3 velocity = SlopeCalculation(velocityWithInertia);
-            Velocity = velocity;
+            prevVelocity = velocity;
             // Set Y component to 0
             velocity.y = 0;
             // Gravity application
@@ -155,8 +156,9 @@ namespace PlayerScriptsNS
                 yVelocity.y += gravity * Time.deltaTime;
             velocity += yVelocity;
             velocity = transform.TransformDirection(velocity);
-            VelocityScaleByTime = velocity * Time.deltaTime;
-            Character.Move(VelocityScaleByTime);
+            Velocity = Character.velocity;
+            VelocityScaleByTime = Velocity * Time.deltaTime;
+            Character.Move(velocity * Time.deltaTime);
         }
         protected virtual Vector3 SlopeCalculation(Vector3 calculatedMovement)
         {
