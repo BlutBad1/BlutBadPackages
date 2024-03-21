@@ -5,6 +5,7 @@ namespace PlayerScriptsNS
     public interface IFPSPlayerMotor
     {
         public float SpeedCoef { get; set; }
+        public bool IsGrounded { get; set; }
         public Vector3 Velocity { get; }
         public Vector3 YVelocity { get; }
         public void EnableMovement();
