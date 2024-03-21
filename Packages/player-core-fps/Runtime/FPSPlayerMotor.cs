@@ -25,12 +25,11 @@ namespace PlayerScriptsNS
         [SerializeField]
         private float crounchingSpeed = 2.5f;
 
-        protected Vector3 lastVelocity;
         protected bool lerpCrouch;
         protected float crounchTimer;
-        protected Vector3 playerYVelocity;
         private float speed;
         private bool isGrounded;
+        private Vector3 yVelocity;
 
         public event Action OnSprintStartEvent;
         public event Action OnSprintCanceltEvent;
@@ -52,12 +51,13 @@ namespace PlayerScriptsNS
                     OnCancelSprint();
             }
         }
-        public Vector3 CurrentScaledByTimeVelocity { get; protected set; }
         public CharacterController Character { get; protected set; }
         public float SpeedCoef { get; set; }
         public float CrounchingSpeed { get => crounchingSpeed; set => crounchingSpeed = value; }
         public float SprintingSpeed { get => sprintingSpeed; set => sprintingSpeed = value; }
         public float DefaultSpeed { get => defaultSpeed; set => defaultSpeed = value; }
+        public Vector3 Velocity { get; protected set; }
+        public virtual Vector3 YVelocity { get => yVelocity; protected set => yVelocity = value; }
 
         private void Awake()
         {
@@ -89,7 +89,7 @@ namespace PlayerScriptsNS
         public virtual void OnPerformJump()
         {
             if (IsGrounded && !IsCrounching)
-                playerYVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+                yVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
         }
         public virtual void OnPerformCrouch()
         {
@@ -142,18 +142,17 @@ namespace PlayerScriptsNS
             Vector3 horizontalMovement = new Vector3(input.x, 0, input.y);
             Vector3 targetVelocity = horizontalMovement * CurrentSpeed;
             // Apply inertia by combining the target velocity with last frame's velocity
-            Vector3 velocityWithInertia = Vector3.Lerp(targetVelocity, lastVelocity, inertiaWeight);
+            Vector3 velocityWithInertia = Vector3.Lerp(targetVelocity, Velocity, inertiaWeight);
             Vector3 velocity = SlopeCalculation(velocityWithInertia);
-            lastVelocity = velocity;
-            CurrentScaledByTimeVelocity = Character.velocity * Time.deltaTime;
+            Velocity = velocity;
             // Set Y component to 0
             velocity.y = 0;
             // Gravity application
-            if (IsGrounded && playerYVelocity.y < 0)
-                playerYVelocity.y = -2f;
+            if (IsGrounded && yVelocity.y < 0)
+                yVelocity.y = -2f;
             else
-                playerYVelocity.y += gravity * Time.deltaTime;
-            velocity += playerYVelocity;
+                yVelocity.y += gravity * Time.deltaTime;
+            velocity += yVelocity;
             velocity = transform.TransformDirection(velocity);
             Character.Move(velocity * Time.deltaTime);
         }
