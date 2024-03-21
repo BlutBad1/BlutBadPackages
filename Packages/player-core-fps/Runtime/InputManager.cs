@@ -29,10 +29,12 @@ namespace PlayerScriptsNS
         private void OnEnable()
         {
             SubscribeEvents();
+            onFoot.Enable();
         }
         private void OnDisable()
         {
             UnsubscribeEvents();
+            onFoot.Disable();
         }
         private void FixedUpdate()
         {

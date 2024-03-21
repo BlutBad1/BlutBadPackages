@@ -52,7 +52,7 @@ namespace PlayerScriptsNS
             }
         }
         public CharacterController Character { get; protected set; }
-        public float SpeedCoef { get; set; }
+        public float SpeedCoef { get; set; } = 1f;
         public float CrounchingSpeed { get => crounchingSpeed; set => crounchingSpeed = value; }
         public float SprintingSpeed { get => sprintingSpeed; set => sprintingSpeed = value; }
         public float DefaultSpeed { get => defaultSpeed; set => defaultSpeed = value; }

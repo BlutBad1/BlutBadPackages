@@ -6,6 +6,8 @@ namespace PlayerScriptsNS
     {
         public float SpeedCoef { get; set; }
         public bool IsGrounded { get; set; }
+        public float DefaultSpeed { get; }
+        public float CurrentSpeed { get; }
         public Vector3 Velocity { get; }
         public Vector3 VelocityScaleByTime { get; }
         public void EnableMovement();
